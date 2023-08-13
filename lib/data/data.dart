@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_netflix_ui/assets.dart';
 
-import 'models/content.dart';
+import '../models/content.dart';
 
 const Content sintelContent = Content(
   name: 'Sintel',

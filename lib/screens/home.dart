@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_netflix_ui/data.dart';
+import 'package:flutter_netflix_ui/data/data.dart';
 
 import '../widgets/widgets.dart';
 
