@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_netflix_ui/cubits/cubits.dart';
 import 'package:flutter_netflix_ui/data/data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../widgets/widgets.dart';
 
@@ -11,17 +13,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  double _scrollOffset = 0;
   late ScrollController _scrollController;
 
   @override
   void initState() {
     _scrollController = ScrollController()
       ..addListener(() {
-        setState(() {
-          _scrollOffset = _scrollController.offset;
-        });
-        
+        context.read<AppBarCubit>().setOffset(_scrollController.offset);
       });
     super.initState();
   }
@@ -40,8 +38,12 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.black,
       appBar: PreferredSize(
         preferredSize: Size(screenSize.width, 50.0),
-        child: CustomAppBar(
-          scrollOffset: _scrollOffset,
+        child: BlocBuilder<AppBarCubit, double>(
+          builder: (context, scrollOffset) {
+            return CustomAppBar(
+              scrollOffset: scrollOffset,
+            );
+          },
         ),
       ),
       body: CustomScrollView(
@@ -69,7 +71,6 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () => print('Originals'),
             ),
           ),
-
           SliverToBoxAdapter(
             child: ContentsList(
               key: const PageStorageKey('list'),
@@ -79,7 +80,6 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () => print('List'),
             ),
           ),
-
           SliverPadding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             sliver: SliverToBoxAdapter(
