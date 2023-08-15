@@ -21,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
         setState(() {
           _scrollOffset = _scrollController.offset;
         });
+        
       });
     super.initState();
   }
@@ -45,14 +46,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: CustomScrollView(
         controller: _scrollController,
-        slivers: const [
-          SliverToBoxAdapter(
+        slivers: [
+          const SliverToBoxAdapter(
             child: ContentHeader(featuredContent: sintelContent),
           ),
-          SliverPadding(
+          const SliverPadding(
             padding: EdgeInsets.only(top: 20.0),
             sliver: SliverToBoxAdapter(
               child: Previews(
+                key: PageStorageKey('previews'),
                 title: 'Previews',
                 contentList: previews,
               ),
@@ -60,17 +62,33 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SliverToBoxAdapter(
             child: ContentsList(
+              key: const PageStorageKey('originals'),
               title: 'Originals',
               contents: originals,
               isOriginals: true,
+              onTap: () => print('Originals'),
             ),
           ),
 
           SliverToBoxAdapter(
             child: ContentsList(
+              key: const PageStorageKey('list'),
               title: 'List',
               contents: myList,
               isOriginals: false,
+              onTap: () => print('List'),
+            ),
+          ),
+
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            sliver: SliverToBoxAdapter(
+              child: ContentsList(
+                title: 'Trendings',
+                contents: trending,
+                isOriginals: false,
+                onTap: () => print('Trendings'),
+              ),
             ),
           )
         ],
